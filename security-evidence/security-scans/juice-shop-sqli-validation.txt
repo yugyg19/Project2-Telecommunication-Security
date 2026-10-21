@@ -1,0 +1,41 @@
+Scenario B — SQL Injection Validation Report
+
+Target: http://10.20.10.20:3000/rest/user/login
+Method: POST
+
+Test 1 — Normal incorrect credentials
+HTTP status: 401 Unauthorized
+Result: Login rejected as expected.
+
+Test 2 — Single quote in email
+HTTP status: 500 Internal Server Error
+Result: Database-related Sequelize/SQLite stack trace exposed.
+Finding: Internal error disclosure.
+
+Test 3 — SQL injection authentication-bypass validation
+Input: ' OR 1=1-- 
+Password: Intentionally incorrect
+HTTP status: 200 OK
+Returned account: admin@juice-sh.op
+Authentication token returned: Yes
+Token value: Not stored in the evidence file.
+
+Assessment:
+Authentication bypass was observed in the isolated OWASP Juice Shop lab. The endpoint accepted an SQL injection-style email input and returned an authentication token for the admin account despite an intentionally incorrect password.
+
+ZAP finding:
+Rule ID: 40018
+Alert: SQL Injection
+Reported risk: High
+Original ZAP confidence: Low
+
+The direct validation test provides strong evidence of SQL injection with authentication bypass. The earlier HTTP 500 response also exposed internal stack-trace details. These are separate security impacts.
+
+Evidence files:
+- zap-login-alerts.json
+- zap-login-scan-status.json
+- zap-login-sqli-summary.txt
+- juice-shop-single-quote-response.html
+- juice-shop-sqli-confirmation.json
+
+Safety note: Authentication tokens are sensitive and must not be included in screenshots, reports, or source control.

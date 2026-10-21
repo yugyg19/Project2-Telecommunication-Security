@@ -1,0 +1,18 @@
+env:
+  contexts:
+    - name: juice-shop
+      urls:
+        - "http://10.20.10.20:3000"
+      includePaths:
+        - "http://10.20.10.20:3000/.*"
+
+jobs:
+  - type: spider
+    parameters:
+      context: juice-shop
+      url: "http://10.20.10.20:3000"
+      maxDuration: 2
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 2

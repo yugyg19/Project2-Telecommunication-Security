@@ -1,0 +1,13 @@
+{
+  "test": "Juice Shop Selenium browser smoke test",
+  "target": "http://10.20.10.20:3000",
+  "started_utc": "2026-10-20T19:41:53.476959+00:00",
+  "status": "PASS",
+  "browser": "chrome",
+  "browser_version": "131.0.6778.204",
+  "page_title": "OWASP Juice Shop",
+  "current_url": "http://10.20.10.20:3000/#/",
+  "page_loaded": true,
+  "screenshot": "/home/yugendarraja/Project2-Telecommunication-Security/screenshots/juice-shop-selenium.png",
+  "finished_utc": "2026-10-20T19:41:59.810446+00:00"
+}

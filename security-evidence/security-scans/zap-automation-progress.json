@@ -1,0 +1,15 @@
+{
+    "warn": [],
+    "planId": 0,
+    "started": "2026-10-20T17:59:44.418Z",
+    "finished": "2026-10-20T18:00:17.525Z",
+    "error": [],
+    "info": [
+        "Job spider started",
+        "Job spider requesting URL http://10.20.10.20:3000",
+        "Job spider found 101 URLs",
+        "Job spider finished, time taken: 00:00:29",
+        "Job passiveScan-wait started",
+        "Job passiveScan-wait finished, time taken: 00:00:02"
+    ]
+}

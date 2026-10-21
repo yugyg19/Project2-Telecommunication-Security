@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+</head>
+<body>
+    <h1>Feedback</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="message">Your feedback:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Submit feedback</button>
+    </form>
+    <p><a href="/">Home</a></p>
+</body>
+</html>

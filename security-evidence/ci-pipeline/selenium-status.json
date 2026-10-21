@@ -1,0 +1,43 @@
+{
+    "value": {
+        "ready": true,
+        "message": "Selenium Grid ready.",
+        "nodes": [
+            {
+                "id": "23556827-40c6-46c9-b939-58ec888cd373",
+                "uri": "http://10.20.10.30:4444",
+                "maxSessions": 1,
+                "sessionTimeout": 300000,
+                "osInfo": {
+                    "arch": "amd64",
+                    "name": "Linux",
+                    "version": "6.18.33.2-microsoft-standard-WSL2"
+                },
+                "heartbeatPeriod": 30000,
+                "availability": "UP",
+                "version": "4.27.0 (revision d6e718d)",
+                "slots": [
+                    {
+                        "id": {
+                            "hostId": "23556827-40c6-46c9-b939-58ec888cd373",
+                            "id": "86859a10-2e00-4604-a84b-6af1120d7a35"
+                        },
+                        "lastStarted": "1970-01-01T00:00:00Z",
+                        "session": null,
+                        "stereotype": {
+                            "browserName": "chrome",
+                            "browserVersion": "131.0",
+                            "goog:chromeOptions": {
+                                "binary": "/usr/bin/google-chrome"
+                            },
+                            "platformName": "linux",
+                            "se:containerName": "",
+                            "se:noVncPort": 7900,
+                            "se:vncEnabled": true
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

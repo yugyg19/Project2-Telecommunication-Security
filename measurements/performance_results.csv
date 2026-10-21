@@ -1,0 +1,5 @@
+condition,throughput_mbps,retransmissions
+baseline_1,25200,4088
+baseline_2,24000,1953
+baseline_3,26200,945
+rate_limit_20mbps,19.1,0

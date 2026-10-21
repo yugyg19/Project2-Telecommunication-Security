@@ -1,0 +1,4 @@
+condition,run,packets_sent,packets_received,loss_pct,min_rtt_ms,avg_rtt_ms,max_rtt_ms,mdev_ms
+Baseline,1,20,20,0,1.107,2.966,18.564,3.704
+Baseline,2,20,20,0,0.973,2.032,3.239,0.8
+Baseline,3,20,20,0,0.918,1.864,2.891,0.768

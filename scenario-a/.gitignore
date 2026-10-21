@@ -1,0 +1,20 @@
+# Environment secrets
+.env
+*.key
+
+# Local certificate backups
+certs/backup-before-ca-fix/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Local development files
+.DS_Store
+
+# Locally generated certificates and signing files
+certs/ca.crt
+certs/server.crt
+certs/server.csr
+certs/ca.srl

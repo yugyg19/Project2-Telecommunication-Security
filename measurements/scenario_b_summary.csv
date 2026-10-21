@@ -1,0 +1,13 @@
+metric,condition,test_basis,value,unit
+ICMP,Baseline,20 packets × 3,2.287,ms
+ICMP loss,Baseline,20 packets × 3,0.0,%
+TCP receiver,Baseline,10 s × 3,296.3,Mbit/s
+TCP retransmissions,Baseline,10 s × 3,381.0,count
+TCP receiver,20 Mbps N6 limit,3 runs,19.0,Mbit/s
+TCP retransmissions,20 Mbps N6 limit,3 runs,36.67,count
+UDP received,10 Mbps offered,10 s × 3,10.0,Mbit/s
+UDP jitter,10 Mbps offered,10 s × 3,0.064,ms
+UDP loss,10 Mbps offered,10 s × 3,0.0,%
+HTTP total,Baseline,3 requests,8.022,ms
+HTTP connect,Baseline,3 requests,1.308,ms
+HTTP success,Baseline,3 requests,100.0,%

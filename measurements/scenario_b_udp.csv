@@ -1,0 +1,4 @@
+condition,run,duration_s,offered_mbps,received_mbps,jitter_ms,lost_datagrams,total_datagrams,loss_pct
+Baseline 10 Mbps offered,1,10,10,10,0.077,0,9274,0
+Baseline 10 Mbps offered,2,10,10,10,0.062,0,9274,0
+Baseline 10 Mbps offered,3,10,10,10,0.053,0,9274,0

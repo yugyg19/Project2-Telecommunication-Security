@@ -1,0 +1,128 @@
+{
+  "generated_utc": "2026-10-21T13:07:44.694899+00:00",
+  "project": "Telecommunications Security, DevSecOps, and Traffic Intelligence",
+  "scenario": "B",
+  "status": "EVIDENCE_PARTIAL",
+  "correlation_note": "This report summarizes separately collected artifacts. Matching indicators do not prove all tests occurred in one session.",
+  "observations": {
+    "zap": {
+      "evidence": {
+        "path": "security-evidence/security-scans/zap-final-login-alerts.json",
+        "exists": true,
+        "size_bytes": 12636,
+        "sha256": "e0763b5255814c1c24938e0e2859e7462d78ccd298feeea455ada6a042e36d1d"
+      },
+      "sql_injection_alerts_found": 1,
+      "alert_ids": [
+        "40018"
+      ]
+    },
+    "selenium": {
+      "evidence": {
+        "path": "security-evidence/selenium/selenium-browser-test.json",
+        "exists": true,
+        "size_bytes": 499,
+        "sha256": "ecdecb290266aac6c56c3f445adbd0ab0e7f2cb9468107ec1291dafc73d5f59a"
+      },
+      "test_status": "PASS",
+      "page_loaded": true,
+      "test_scope": "Browser smoke test; not an authentication test"
+    },
+    "packet_capture": {
+      "evidence": {
+        "path": "packet-captures/scenario-b-sqli-final.pcapng",
+        "exists": true,
+        "size_bytes": 2892,
+        "sha256": "b4254efefb8c56dc72bddfa19f8b916f0b761d56d9f057b7144f075327143851"
+      },
+      "expected_test_uri": "/rest/products/search?q=test%27%28",
+      "pcap_request_verified_separately_with_tshark": true
+    },
+    "suricata": {
+      "evidence": {
+        "path": "security-evidence/suricata/eve.json",
+        "exists": true,
+        "size_bytes": 21205,
+        "sha256": "37dfe2dfa7f99ea958441be7bcd7786a8d0b8934653ef36116ce0f8d75e5fd6c"
+      },
+      "local_sid_1000001_alert_count": 1,
+      "alerts": [
+        {
+          "signature": "LOCAL Scenario B SQLi test - encoded quote/parenthesis in product search",
+          "source_ip": "10.20.10.1",
+          "destination_ip": "10.20.10.20"
+        }
+      ]
+    },
+    "trivy": {
+      "evidence": {
+        "path": "security-evidence/security-scans/trivy-juice-shop.json",
+        "exists": true,
+        "size_bytes": 1640726,
+        "sha256": "034ff5365b88a5ef991de69e6878aedee0a76a9ab4b639a0d4eb083dd7f970b7"
+      },
+      "vulnerability_counts_by_severity": {
+        "MEDIUM": 86,
+        "LOW": 24,
+        "HIGH": 54,
+        "CRITICAL": 12
+      },
+      "misconfiguration_findings": 83,
+      "secret_findings": 6,
+      "note": "Scanner findings are not automatically confirmed exploitable."
+    },
+    "sbom": {
+      "evidence": {
+        "path": "security-evidence/security-scans/juice-shop-sbom.cyclonedx.json",
+        "exists": true,
+        "size_bytes": 1507794,
+        "sha256": "27d760d561adff64c900f28be0b327300dbfe1565668183756b257d018e9a198"
+      },
+      "format": "CycloneDX",
+      "component_count": 2677
+    }
+  },
+  "artifact_manifest": [
+    {
+      "path": "security-evidence/security-scans/zap-final-login-alerts.json",
+      "exists": true,
+      "size_bytes": 12636,
+      "sha256": "e0763b5255814c1c24938e0e2859e7462d78ccd298feeea455ada6a042e36d1d"
+    },
+    {
+      "path": "security-evidence/selenium/selenium-browser-test.json",
+      "exists": true,
+      "size_bytes": 499,
+      "sha256": "ecdecb290266aac6c56c3f445adbd0ab0e7f2cb9468107ec1291dafc73d5f59a"
+    },
+    {
+      "path": "packet-captures/scenario-b-sqli-final.pcapng",
+      "exists": true,
+      "size_bytes": 2892,
+      "sha256": "b4254efefb8c56dc72bddfa19f8b916f0b761d56d9f057b7144f075327143851"
+    },
+    {
+      "path": "security-evidence/suricata/eve.json",
+      "exists": true,
+      "size_bytes": 21205,
+      "sha256": "37dfe2dfa7f99ea958441be7bcd7786a8d0b8934653ef36116ce0f8d75e5fd6c"
+    },
+    {
+      "path": "security-evidence/security-scans/trivy-juice-shop.json",
+      "exists": true,
+      "size_bytes": 1640726,
+      "sha256": "034ff5365b88a5ef991de69e6878aedee0a76a9ab4b639a0d4eb083dd7f970b7"
+    },
+    {
+      "path": "security-evidence/security-scans/juice-shop-sbom.cyclonedx.json",
+      "exists": true,
+      "size_bytes": 1507794,
+      "sha256": "27d760d561adff64c900f28be0b327300dbfe1565668183756b257d018e9a198"
+    }
+  ],
+  "security_gate": {
+    "mode": "REPORT_ONLY",
+    "decision": "NOT_EVALUATED",
+    "note": "This correlation script does not implement the Jenkins security gate."
+  }
+}

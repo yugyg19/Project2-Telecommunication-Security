@@ -1,0 +1,14 @@
+Scenario B — Targeted OWASP ZAP Login Scan
+
+Target: http://10.20.10.20:3000/rest/user/login
+Method: POST
+ZAP active scan ID: 0
+Scan completion status: 100%
+SQL Injection rule ID: 40018
+Reported risk: High
+Reported confidence: Low
+Parameter identified: email
+Evidence: HTTP 500 Internal Server Error
+Assessment: Potential SQL injection; not confirmed.
+Limitation: An HTTP 500 response alone does not prove SQL injection.
+Other alerts are recorded in zap-login-alerts.json.
