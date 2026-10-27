@@ -1,0 +1,12 @@
+{
+  "test": "Juice Shop browser authentication validation",
+  "target": "http://10.20.10.20:3000",
+  "started_utc": "2026-10-25T09:30:19.681460+00:00",
+  "status": "FAIL",
+  "checks": {
+    "home_page_loaded": true,
+    "login_form_present": true
+  },
+  "error": "TimeoutException: Message: \n",
+  "finished_utc": "2026-10-25T09:30:58.191525+00:00"
+}

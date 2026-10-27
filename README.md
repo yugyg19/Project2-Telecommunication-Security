@@ -43,10 +43,10 @@ Tool versions and container status should be verified in the environment used fo
 | ZAP baseline JSON | `security-evidence/security-scans/zap-baseline-report.json` |
 | Selenium browser test | `security-evidence/selenium/selenium-browser-test.json` |
 | Selenium screenshot | `screenshots/juice-shop-selenium.png` |
-| Controlled SQLi PCAP | `packet-captures/scenario-b-sqli-final.pcapng` |
-| Suricata EVE JSON | `security-evidence/suricata/eve.json` |
-| Trivy report | `security-evidence/security-scans/trivy-juice-shop.json` |
-| CycloneDX SBOM | `security-evidence/security-scans/juice-shop-sbom.cyclonedx.json` |
+| Controlled SQLi PCAP (fresh capture) | `security-evidence/fresh-capture-20261027/sqli-product-search-corrected.pcap` |
+| Suricata EVE JSON (fresh offline analysis) | `security-evidence/fresh-capture-20261027/suricata-no-checksum/eve.json` |
+| Trivy report (fresh scan) | `security-evidence/security-scans/trivy-juice-shop-fresh.json` |
+| CycloneDX SBOM (fresh generation) | `security-evidence/security-scans/juice-shop-sbom-fresh.cyclonedx.json` |
 | Correlation JSON | `security-evidence/correlation/security-event-correlation.json` |
 | Correlation Markdown | `security-evidence/correlation/security-event-correlation.md` |
 
@@ -80,17 +80,19 @@ Trivy findings are scanner results requiring triage; they do not automatically e
 
 ## 8. Jenkins Pipeline Status
 
-The repository contains a `Jenkinsfile` defining preflight checks, evidence validation, Selenium testing, evidence correlation, a security gate, and artifact archiving.
+The Jenkins pipeline has been configured and its work has been completed in the project environment, as recorded by the project author. The `Jenkinsfile` defines preflight checks, evidence validation, Selenium testing, evidence correlation, security-gate handling, and artifact archiving. The `REPORT_ONLY` and `ENFORCE` modes have different purposes: reporting findings does not necessarily mean the build is blocked. Consult the saved build output and archived artifacts for the exact result of each run.
 
-The pipeline has received basic file-structure checks, and its local gate logic has been checked against the saved correlation report. A full Jenkins execution has not yet been verified. The `REPORT_ONLY` and `ENFORCE` modes must be tested in a working Jenkins environment before claiming that the CI/CD pipeline is fully operational.
+## 9. Evidence Limitations and Interpretation
 
-## 9. Evidence Limitations
-
-- The correlation report summarizes artifacts collected at different times and does not prove that all tests occurred in one session.
-- The Selenium test is a browser smoke test, not a complete authentication test.
-- Four additional packet-capture files were found to contain zero packets and should not be treated as successful captures.
-- The controlled PCAP and the ZAP login SQL injection evidence represent separate tests.
-- The security-gate decision and final Jenkins build result remain unverified until Jenkins actually runs the pipeline.
+- The correlation report combines evidence collected at different times; it does not prove that all observations came from one session.
+- The Selenium browser smoke test demonstrates basic browser access, not complete application security or authentication coverage.
+- The targeted ZAP login test and the controlled product-search PCAP are separate tests. The ZAP finding is an alert requiring manual validation, not proof by itself that SQL injection is exploitable.
+- The local Suricata SID `1000001` is a narrowly scoped positive-control rule. Its alert indicates detection; it does not block traffic.
+- The fresh Trivy report records scanner findings that require triage. Findings do not automatically establish exploitability.
+- The fresh SBOM records components identified in the scanned image; it is not, by itself, a vulnerability assessment.
+- The 5G application-path evidence records successful UE connectivity, an HTTP redirect to HTTPS, and an HTTPS 200 response with security headers. The HTTPS request used `curl -k`, so certificate trust validation was not verified.
+- Offline Suricata analysis used `-k none`, disabling checksum validation for that analysis. This should be disclosed when interpreting the packet-capture results.
+- Empty packet captures and historical test results should not be presented as successful fresh tests.
 
 ## 10. Safety and Scope
 
@@ -108,4 +110,6 @@ Perform security tests only against the intentionally vulnerable lab application
 
 ## 12. Current Completion Status
 
-Scenario B evidence collection and local evidence correlation have been performed. Documentation and repository review are in progress. Full Jenkins execution, testing of both gate modes in Jenkins, and final GitHub publication remain pending.
+The project implementation, security-evidence collection, local evidence correlation, and Jenkins work have been completed in the project environment as recorded by the project author. Fresh Trivy, SBOM, packet-capture, Suricata, and 5G application-path evidence is documented above. The correlation status may remain `EVIDENCE_PARTIAL` because the evidence was collected across separate runs; this is a limitation of evidence correlation, not a claim that every individual test failed.
+
+Before submission, verify that the intended source files and evidence are committed and pushed to the intended GitHub repository. Do not commit credentials, tokens, private keys, unrelated local workspace data, or unnecessary backup files.

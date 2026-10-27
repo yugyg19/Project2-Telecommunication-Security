@@ -1,0 +1,16 @@
+{
+  "alert_count": 1,
+  "alerts": [
+    {
+      "timestamp": "2026-10-27T08:19:09.947862+0000",
+      "signature_id": 1000001,
+      "signature": "LOCAL Scenario B SQLi test - quote and parenthesis in product search",
+      "source": "10.20.10.2:52356",
+      "destination": "10.20.10.20:3000",
+      "http_method": "GET",
+      "http_url": "/rest/products/search?q=test%27%28",
+      "http_status": 500,
+      "action": "allowed"
+    }
+  ]
+}

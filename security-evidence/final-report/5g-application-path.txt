@@ -1,0 +1,23 @@
+Project 2 — 5G Application Path Verification
+Date: 2026-10-27
+
+1. UE registration: successful.
+2. PDU session establishment: successful.
+3. UE tunnel interface: uesimtun0, IPv4 192.168.100.2.
+4. Ping through uesimtun0 to 10.20.6.20: 4 packets transmitted, 4 received, 0% packet loss.
+5. HTTP request through the UE network namespace and uesimtun0:
+   Result: HTTP 301 Moved Permanently.
+   Redirect: https://10.20.6.20/
+6. HTTPS request through the UE network namespace and uesimtun0:
+   Result: HTTP 200 OK.
+7. Observed response headers:
+   X-Frame-Options: DENY
+   Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+   Strict-Transport-Security: max-age=3600
+   X-Content-Type-Options: nosniff
+   Referrer-Policy: same-origin
+   Cross-Origin-Opener-Policy: same-origin
+8. CSRF cookie observed with Secure and SameSite=Lax attributes.
+
+Limitation:
+The HTTPS test used curl -k, which disables certificate verification. HTTPS connectivity and the server response were verified, but certificate trust validation was not verified by this test.

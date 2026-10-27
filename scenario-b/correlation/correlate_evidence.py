@@ -49,14 +49,25 @@ def file_info(path):
 
 
 zap_path = EVIDENCE / "security-scans/zap-final-login-alerts.json"
-selenium_path = EVIDENCE / "selenium/selenium-browser-test.json"
-suricata_path = EVIDENCE / "suricata/eve.json"
-trivy_path = EVIDENCE / "security-scans/trivy-juice-shop.json"
-sbom_path = EVIDENCE / "security-scans/juice-shop-sbom.cyclonedx.json"
-pcap_path = ROOT / "packet-captures/scenario-b-sqli-final.pcapng"
+
+# Keep the latest test outputs separate from the archived evidence.
+selenium_path = ROOT / "evidence/selenium/selenium-browser-test.json"
+auth_path = ROOT / "evidence/selenium/selenium-auth-test.json"
+
+# Retain the older archived reports for historical comparison.
+archived_selenium_path = EVIDENCE / "selenium/selenium-browser-test.json"
+archived_auth_path = EVIDENCE / "selenium/selenium-auth-test.json"
+
+suricata_path = EVIDENCE / "fresh-capture-20261027/suricata-no-checksum/eve.json"
+trivy_path = EVIDENCE / "security-scans/trivy-juice-shop-fresh.json"
+sbom_path = EVIDENCE / "security-scans/juice-shop-sbom-fresh.cyclonedx.json"
+pcap_path = EVIDENCE / "fresh-capture-20261027/sqli-product-search-corrected.pcap"
 
 zap = read_json(zap_path)
 selenium = read_json(selenium_path)
+auth = read_json(auth_path)
+archived_selenium = read_json(archived_selenium_path)
+archived_auth = read_json(archived_auth_path)
 suricata_events = read_json_lines(suricata_path)
 trivy = read_json(trivy_path)
 sbom = read_json(sbom_path)
@@ -93,7 +104,15 @@ if isinstance(trivy, dict):
 components = sbom.get("components", []) if isinstance(sbom, dict) else []
 
 evidence_files = [
-    zap_path, selenium_path, pcap_path, suricata_path, trivy_path, sbom_path
+    zap_path,
+    selenium_path,
+    auth_path,
+    archived_selenium_path,
+    archived_auth_path,
+    pcap_path,
+    suricata_path,
+    trivy_path,
+    sbom_path,
 ]
 
 report = {
@@ -120,6 +139,23 @@ report = {
             "page_loaded": selenium.get("page_loaded") if isinstance(selenium, dict) else None,
             "test_scope": "Browser smoke test; not an authentication test",
         },
+        "selenium_authentication": {
+            "evidence": file_info(auth_path),
+            "test_status": auth.get("status") if isinstance(auth, dict) else None,
+            "test_name": auth.get("test_name") if isinstance(auth, dict) else None,
+            "test_scope": "Separate browser authentication validation",
+        },
+        "historical_selenium": {
+            "evidence": file_info(archived_selenium_path),
+            "test_status": archived_selenium.get("status")
+            if isinstance(archived_selenium, dict) else None,
+        },
+        "historical_selenium_authentication": {
+            "evidence": file_info(archived_auth_path),
+            "test_status": archived_auth.get("status")
+            if isinstance(archived_auth, dict) else None,
+            "note": "Historical result retained; not substituted for the latest test.",
+        },
         "packet_capture": {
             "evidence": file_info(pcap_path),
             "expected_test_uri": "/rest/products/search?q=test%27%28",
@@ -142,7 +178,7 @@ report = {
             "vulnerability_counts_by_severity": trivy_counts,
             "misconfiguration_findings": misconfig_count,
             "secret_findings": secret_count,
-            "note": "Scanner findings are not automatically confirmed exploitable.",
+            "note": "Fresh Trivy report supplied for correlation. Findings require triage and are not automatically confirmed exploitable.",
         },
         "sbom": {
             "evidence": file_info(sbom_path),
@@ -173,6 +209,8 @@ lines = [
     "",
     f"- ZAP SQL injection alerts in selected export: **{len(zap_sqli)}**",
     f"- Selenium browser test: **{report['observations']['selenium']['test_status'] or 'UNKNOWN'}**",
+    f"- Selenium authentication test: **{report['observations']['selenium_authentication']['test_status'] or 'UNKNOWN'}**",
+    f"- Historical Selenium authentication test: **{report['observations']['historical_selenium_authentication']['test_status'] or 'UNKNOWN'}**",
     f"- Suricata SID 1000001 alerts: **{len(suricata_alerts)}**",
     f"- Trivy vulnerability counts: `{json.dumps(trivy_counts, sort_keys=True)}`",
     f"- Trivy misconfiguration findings: **{misconfig_count}**",
@@ -182,10 +220,11 @@ lines = [
     "## Evidence limitations",
     "",
     "- The PCAP is a controlled product-search test, not the separate login SQL injection test.",
-    "- The Selenium test is a browser smoke test, not an authentication test.",
+    "- The browser smoke test and authentication test are separate test runs.",
+    "- The historical authentication failure is retained and is not the latest authentication result.",
     "- Evidence files may come from separate runs; this report does not claim a single-session causal chain.",
     "- Trivy findings require triage and are not all proof of exploitability.",
-    "- The Jenkins security gate has not been evaluated by this script.",
+    "- Jenkins evaluates its security gate after this correlation report is generated; this report does not independently certify the gate result.",
     "",
     "## Artifact integrity",
     "",

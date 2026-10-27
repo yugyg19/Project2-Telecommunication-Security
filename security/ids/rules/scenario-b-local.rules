@@ -1,2 +1,2 @@
-# Local Scenario B SQLi detection rule
-alert tcp any any -> any 3000 (msg:"LOCAL Scenario B SQLi test - encoded quote/parenthesis in product search"; flow:established,to_server; content:"/rest/products/search?q=test%27%28"; sid:1000001; rev:3;)
+# Detect the controlled SQLi-style product-search test in HTTP URI
+alert http any any -> any any (msg:"LOCAL Scenario B SQLi test - quote and parenthesis in product search"; flow:established,to_server; http.uri; content:"/rest/products/search"; content:"test"; content:"'"; content:"("; sid:1000001; rev:6;)

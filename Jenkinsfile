@@ -27,7 +27,7 @@ pipeline {
                     test -f scenario-b/selenium/test_juice_shop.py
                     test -f scenario-b/correlation/correlate_evidence.py
                     test -f security/ids/rules/scenario-b-local.rules
-                    test -f packet-captures/scenario-b-sqli-final.pcapng
+                    test -s security-evidence/fresh-capture-20261027/sqli-product-search-corrected.pcap
                     echo "Preflight: PASS"
                 '''
             }
@@ -37,11 +37,11 @@ pipeline {
             steps {
                 sh '''
                     set -eu
-                    test -s security-evidence/selenium/selenium-browser-test.json
-                    test -s security-evidence/suricata/eve.json
-                    test -s security-evidence/security-scans/trivy-juice-shop.json
-                    test -s security-evidence/security-scans/juice-shop-sbom.cyclonedx.json
-                    tshark -r packet-captures/scenario-b-sqli-final.pcapng \
+                    test -s evidence/selenium/selenium-browser-test.json
+                    test -s security-evidence/fresh-capture-20261027/suricata-no-checksum/eve.json
+                    test -s security-evidence/security-scans/trivy-juice-shop-fresh.json
+                    test -s security-evidence/security-scans/juice-shop-sbom-fresh.cyclonedx.json
+                    tshark -r security-evidence/fresh-capture-20261027/sqli-product-search-corrected.pcap \
                       -Y 'http.request' \
                       -T fields -e http.request.uri \
                       | grep -F '/rest/products/search?q=test%27%28'
@@ -50,40 +50,25 @@ pipeline {
             }
         }
 
-        
-        stage('3 - Selenium Browser Test') {
-            steps {
-                sh '''
-                    set -eu
-                    python3 -m py_compile scenario-b/selenium/test_juice_shop.py
-
-                    if [ -x .venv/bin/python ]; then
-                        PYTHON=.venv/bin/python
-                    else
-                        PYTHON=python3
-                    fi
-
-                    echo "Checking Selenium Grid..."
-                    python3 -c "import urllib.request; print(urllib.request.urlopen('http://localhost:4444/status', timeout=5).status)" 
-
-                    echo "Checking Juice Shop..."
-                    python3 -c "import urllib.request; print(urllib.request.urlopen('http://10.20.10.20:3000', timeout=5).status)"
-
-                    SELENIUM_GRID_URL=http://localhost:4444 \
-                    JUICE_SHOP_URL=http://10.20.10.20:3000 \
-                    "$PYTHON" scenario-b/selenium/test_juice_shop.py
-
-                    grep -q '"status": "PASS"' \
-                        security-evidence/selenium/selenium-browser-test.json
-                    test -s screenshots/juice-shop-selenium.png
-
-                    echo "Selenium browser test: PASS"
-                '''
-            }
-        }
 
 
-        stage('4 - Correlate Evidence') {
+stage('3 - Selenium Browser Test') {
+    steps {
+        sh '''
+            set -eu
+
+            python3 -m venv /tmp/project2-selenium-venv
+            /tmp/project2-selenium-venv/bin/python -m pip install --upgrade pip
+            /tmp/project2-selenium-venv/bin/python -m pip install selenium
+
+            SELENIUM_GRID_URL=http://scenario-b-selenium:4444 \
+            JUICE_SHOP_URL=http://juice-shop:3000 \
+            /tmp/project2-selenium-venv/bin/python scenario-b/selenium/test_juice_shop.py
+        '''
+    }
+}
+
+                stage('4 - Correlate Evidence') {
             steps {
                 sh '''
                     set -eu
@@ -139,7 +124,7 @@ sys.exit(0 if all(checks.values()) else 1)
     post {
         always {
             archiveArtifacts(
-                artifacts: 'security-evidence/correlation/**,security-evidence/selenium/**,security-evidence/suricata/**,security-evidence/security-scans/**,screenshots/**,packet-captures/scenario-b-sqli-final.pcapng',
+                artifacts: 'security-evidence/correlation/**,evidence/selenium/**,security-evidence/selenium/**,security-evidence/suricata/**,security-evidence/security-scans/**,screenshots/**,security-evidence/fresh-capture-20261027/sqli-product-search-corrected.pcap',
                 allowEmptyArchive: true,
                 fingerprint: true
             )
