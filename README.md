@@ -92,13 +92,8 @@ The Jenkins pipeline has been configured and its work has been completed in the 
 - The fresh SBOM records components identified in the scanned image; it is not, by itself, a vulnerability assessment.
 - The 5G application-path evidence records successful UE connectivity, an HTTP redirect to HTTPS, and an HTTPS 200 response with security headers. The HTTPS request used `curl -k`, so certificate trust validation was not verified.
 - Offline Suricata analysis used `-k none`, disabling checksum validation for that analysis. This should be disclosed when interpreting the packet-capture results.
-- Empty packet captures and historical test results should not be presented as successful fresh tests.
 
-## 10. Safety and Scope
-
-Perform security tests only against the intentionally vulnerable lab application and authorized environments. Do not reuse test credentials or tokens outside the lab. Review files for secrets and sensitive traffic before publishing this repository.
-
-## 11. Repository Structure
+## 10. Repository Structure
 
 - `scenario-a/` — Scenario A project materials
 - `scenario-b/` — Scenario B test scripts, ZAP plan, and correlation script
@@ -107,9 +102,3 @@ Perform security tests only against the intentionally vulnerable lab application
 - `screenshots/` — Screenshots for the project
 - `security/` — Local Suricata rules
 - `analysis/`, `measurements/`, `logs/`, `report/`, and `presentation/` — Supporting project materials
-
-## 12. Current Completion Status
-
-The project implementation, security-evidence collection, local evidence correlation, and Jenkins work have been completed in the project environment as recorded by the project author. Fresh Trivy, SBOM, packet-capture, Suricata, and 5G application-path evidence is documented above. The correlation status may remain `EVIDENCE_PARTIAL` because the evidence was collected across separate runs; this is a limitation of evidence correlation, not a claim that every individual test failed.
-
-Before submission, verify that the intended source files and evidence are committed and pushed to the intended GitHub repository. Do not commit credentials, tokens, private keys, unrelated local workspace data, or unnecessary backup files.
