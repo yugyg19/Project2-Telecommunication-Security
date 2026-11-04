@@ -20,8 +20,6 @@ The project includes Scenario A materials copied into this repository and Scenar
 - Evidence processing: Python
 - CI/CD pipeline definition: Jenkinsfile
 
-Tool versions and container status should be verified in the environment used for a future reproduction.
-
 ## 3. Scenario B Workflow
 
 1. Check the application and testing environment.
