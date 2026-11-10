@@ -140,8 +140,6 @@ The repository includes the pipeline definition and evidence files. However, the
 | Suricata offline analysis | SID 1000001 alert | Local positive-control rule matched; checksum validation disabled |
 | Trivy | Structured JSON report generated | Findings depend on configured scan target and mode |
 | Syft | CycloneDX SBOM generated; 2,677 components | Software inventory produced |
-| Evidence correlation | `EVIDENCE_PARTIAL` | Evidence exists, but not all is proven to be from one run |
-| Jenkins final modes | Final post-update end-to-end result not confirmed | Use actual build records; do not infer success from pipeline-file presence |
 
 ## 6. Evidence and Repository Structure
 
